@@ -3,7 +3,7 @@ import { useContext } from 'react';
 import withAuth from './withAuth';
 import logo from '../logo.svg';
 import DarkToggle from './DarkToggle/DarkToggle';
-import { Link, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 function Header({ loggedInUser, setLoggedInUser }) {
     const { theme } = useContext(ThemeContext);

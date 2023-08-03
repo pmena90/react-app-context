@@ -1,6 +1,5 @@
 import Pagetitle from "../PageTitle";
 import LatestGamesCard from "./LatestGamesCard";
-import DashCard from "./LatestGamesCard";
 
 const Home = () => {
 
