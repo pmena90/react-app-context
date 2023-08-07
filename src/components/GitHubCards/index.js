@@ -46,7 +46,7 @@ const MyForm = (props) => {
     }
 
     return (
-        <form onSubmit={handleClick}>
+        <form onSubmit={handleClick} >
             <div className="col-auto">
                 <input type="text"
                     placeholder="GitHub username"
@@ -123,7 +123,7 @@ class GitHubCards extends Component {
             <div className='row'>
                 <Pagetitle title={'The GitHub Cards App'} />
             </div>
-            <div className={isDark ? 'bg-dark text-white' : ''}>
+            <div className={isDark ? 'bg-dark text-white' : ''} >
                 <MyForm onSubmit={this.handleOnSubmit} />
                 <CardList cards={this.state.cards} />
             </div>
