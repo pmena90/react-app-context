@@ -1,6 +1,10 @@
-import { Component } from "react";
+import { Component, useState } from "react";
 import "./styles.css";
-import axios from "axios";
+import { githubService } from "../../services/githubService";
+import useErrorHandler from "../../hooks/useErrorHandler";
+import Pagetitle from "../PageTitle";
+import withTheme from "../withTheme";
+
 
 const testData = [
     { name: "Dan Abramov", avatar_url: "https://avatars0.githubusercontent.com/u/810438?v=4", company: "@facebook" },
@@ -9,45 +13,64 @@ const testData = [
 ];
 
 // Form
-class Form extends Component {
-    state = {
-        username: "",
-    };
+const MyForm = (props) => {
+    const handleError = useErrorHandler();
+    const [username, setUsername] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
 
-    handleClick = async (event) => {
+    const handleClick = (event) => {
+        setIsLoading(true);
         event.preventDefault();
-        const { username } = this.state;
 
-        const response = await axios.get(`https://api.github.com/users/${username}`);
+        githubService.getUserByName(username).then(data => {
+            stopLoading();
 
-        this.props.onSubmit(response.data);
-        this.setState({ username: "" });
+            props.onSubmit(data);
+            setUsername("");
+        }).catch(error => {
+            stopLoading();
+
+            handleError(error);
+        });
+
     };
 
-    handleOnChange = (e) => {
-        this.setState({ username: e.target.value });
+    const handleOnChange = (e) => {
+        setUsername(e.target.value);
     }
 
-    render() {
-        const { username } = this.state;
+    const stopLoading = () => {
+        setTimeout(() => {
+            setIsLoading(false);
+        }, 1000);
+    }
 
-        return (
-            <form onSubmit={this.handleClick}>
+    return (
+        <form onSubmit={handleClick}>
+            <div className="col-auto">
                 <input type="text"
                     placeholder="GitHub username"
                     value={username}
-                    onChange={this.handleOnChange}
+                    onChange={handleOnChange}
                     required
+                    className="form-control-plaintext"
                 />
-                <button type="submit">Add card</button>
-            </form>
-        )
-    }
+            </div>
+            <div className="col-auto">
+                <button type="submit" className="btn btn-primary mb-3">
+                    {isLoading ?
+                        <span><span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>    Loading</span>
+                        : 'Add Card'}
+                </button>
+            </div>
+        </form>
+    )
+
 }
 
 // Card List
 const CardList = (props) => {
-    return <div>
+    return <div className="pb-3">
         {props.cards.map((card, key) => {
             return <div key={key}>
                 <Card card={card} />
@@ -81,19 +104,32 @@ class GitHubCards extends Component {
     }
 
     handleOnSubmit = (card) => {
-        this.setState({
-            cards: [...this.state.cards, card],
-        });
+        console.log("Submit");
+        console.log(card);
+
+        if (card) {
+            this.setState({
+                cards: [...this.state.cards, card],
+            }, () => { console.log(this.state.cards) });
+        }
+
     }
 
     render() {
-        return <div>
-            <h1 className="header">The GitHub Cards App</h1>
-            <Form onSubmit={this.handleOnSubmit} />
-            <CardList cards={this.state.cards} />
+        const isDark = this.props.theme === 'dark';
+        console.log(isDark);
+
+        return <div className='container' id='GithubCardsPage'>
+            <div className='row'>
+                <Pagetitle title={'The GitHub Cards App'} />
+            </div>
+            <div className={isDark ? 'bg-dark text-white' : ''}>
+                <MyForm onSubmit={this.handleOnSubmit} />
+                <CardList cards={this.state.cards} />
+            </div>
         </div>
     }
 }
 
 
-export default GitHubCards;
+export default withTheme(GitHubCards);

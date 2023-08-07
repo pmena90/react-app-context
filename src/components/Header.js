@@ -32,7 +32,6 @@ function Header({ loggedInUser, setLoggedInUser }) {
                         <li className='nav-item'>
                             <NavLink
                                 className='nav-link'
-                                activeClassName='active'
                                 to='/'>
                                 Home
                             </NavLink >
@@ -40,9 +39,15 @@ function Header({ loggedInUser, setLoggedInUser }) {
                         <li className='nav-item'>
                             <NavLink
                                 className='nav-link'
-                                activeClassName='active'
                                 to='/star-game'>
                                 Star Game
+                            </NavLink >
+                        </li>
+                        <li className='nav-item'>
+                            <NavLink
+                                className='nav-link'
+                                to='/github-cards'>
+                                GitHub Cards
                             </NavLink >
                         </li>
                     </ul>

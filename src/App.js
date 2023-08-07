@@ -9,12 +9,15 @@ import { Route, Routes } from 'react-router-dom';
 import NoMatchPage from './components/NoMatchPage';
 import AppRoutes from './Routes';
 
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (
     <AuthProvider initialLoggedInUser="Pavel">
       <Layout startingTheme="dark">
         <div>
+          <ToastContainer />
           <Header />
           <Suspense fallback={<div className="container">Loading...</div>}>
             <AppRoutes />
