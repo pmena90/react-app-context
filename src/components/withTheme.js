@@ -7,10 +7,7 @@ function withTheme(Component) {
     return function (props) {
         const { theme, setTheme } = useContext(ThemeContext);
         return (
-            <Component {...props}
-                theme={theme}
-                setTheme={setTheme}
-            ></Component>
+            <Component {...props} theme={theme} setTheme={setTheme} />
         );
     };
 }

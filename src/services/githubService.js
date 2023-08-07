@@ -7,7 +7,7 @@ export const githubService = {
 };
 
 export function getUserByName(username, config = {}) {
-    return httpService.get(`/users1/${username}`, config)
+    return httpService.get(`/users/${username}`, config)
         .then(response => response.data)
         .catch(handleHttpError);
 }
