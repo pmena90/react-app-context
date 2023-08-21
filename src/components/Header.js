@@ -54,7 +54,7 @@ function Header({ loggedInUser, setLoggedInUser }) {
                     <div className={theme === 'light' ? '' : 'text-info'}>
                         {loggedInUser && loggedInUser.length > 0 ? (
                             <div>
-                                <span>Logged in as {loggedInUser} </span>
+                                <span data-testid="username-text">Logged in as {loggedInUser} </span>
                                 <button
                                     className='btn btn-secondary ms-1'
                                     onClick={() => {
@@ -79,7 +79,7 @@ function Header({ loggedInUser, setLoggedInUser }) {
                     </div>
                 </div>
             </div>
-        </nav>
+        </nav >
     );
 }
 
